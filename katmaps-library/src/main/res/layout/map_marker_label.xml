@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+  <com.groupon.katmaps.katmaps_library.views.MapLabelTextView
+      android:id="@+id/markerLabelTitle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:paddingLeft="4dp"
+      android:paddingRight="4dp"
+      tools:text="Marker Title"
+      style="@style/map_marker_label_title" />
+
+  <TextView
+      android:id="@+id/markerLabelDescription"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:paddingLeft="4dp"
+      android:paddingRight="4dp"
+      tools:text="Marker Description"
+      style="@style/map_marker_label_description" />
+</LinearLayout>

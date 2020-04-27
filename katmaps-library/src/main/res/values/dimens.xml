@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <dimen name="map_marker_label_title_max_width">150dp</dimen>
+</resources>

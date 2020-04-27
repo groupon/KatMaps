@@ -1,0 +1,2 @@
+include':demo-app', ':katmaps-library'
+rootProject.name='KatMaps'

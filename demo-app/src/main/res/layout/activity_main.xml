@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+  <FrameLayout
+      android:id="@+id/map"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
+
+  <com.groupon.katmaps.demo.PoisBottomSheet
+      android:id="@+id/poisBottomSheet"
+      style="?attr/bottomSheetStyle"
+      android:backgroundTint="@color/cardview_light_background"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"/>
+
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+      android:id="@+id/showListButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="8dp"
+      android:layout_marginBottom="8dp"
+      android:clickable="true"
+      app:backgroundTint="@color/colorPrimary"
+      app:layout_anchor="@+id/poisBottomSheet"
+      app:layout_anchorGravity="end|top"
+      app:srcCompat="@drawable/ic_view_list" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

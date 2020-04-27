@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <style name="map_marker_label_base">
+    <item name="android:background">@drawable/map_marker_label_background</item>
+    <item name="android:gravity">center_horizontal</item>
+    <item name="android:shadowColor">#ffffff</item>
+    <item name="android:shadowRadius">3</item>
+    <item name="android:shadowDy">1</item>
+    <item name="android:textStyle">normal</item>
+    <item name="outlineWidth">1dp</item>
+    <item name="outlineColor">#ffffff</item>
+  </style>
+
+  <style name="map_marker_label_title" parent="map_marker_label_base">
+    <item name="android:fontFamily">sans-serif-medium</item>
+    <item name="android:ellipsize">end</item>
+    <item name="android:maxLines">2</item>
+    <item name="android:maxWidth">@dimen/map_marker_label_title_max_width</item>
+    <item name="android:textColor">#333333</item>
+    <item name="android:textSize">13sp</item>
+  </style>
+
+  <style name="map_marker_label_description" parent="map_marker_label_base">
+    <item name="android:fontFamily">sans-serif</item>
+    <item name="android:textColor">#4a4a4a</item>
+    <item name="android:textSize">11sp</item>
+  </style>
+</resources>

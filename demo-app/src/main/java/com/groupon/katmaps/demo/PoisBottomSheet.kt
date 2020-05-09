@@ -25,15 +25,15 @@ import android.widget.FrameLayout
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
-import com.groupon.katmaps.katmaps_library.model.KatMapsMarker
+import com.groupon.katmaps.katmaps_library.model.MapMarker
 import kotlinx.android.synthetic.main.pois_list_bottom_sheet.view.*
 
 class PoisBottomSheet(context: Context, attributeSet: AttributeSet?) :
     FrameLayout(context, attributeSet) {
 
-    private val itemClickListenerInternal: ((KatMapsMarker) -> Unit) = { itemClickListener?.invoke(it) }
+    private val itemClickListenerInternal: ((MapMarker) -> Unit) = { itemClickListener?.invoke(it) }
     private var poiListAdapter: PoiListAdapter = PoiListAdapter(itemClickListenerInternal)
-    var itemClickListener: ((KatMapsMarker) -> Unit)? = null
+    var itemClickListener: ((MapMarker) -> Unit)? = null
 
     init {
         inflate(context, R.layout.pois_list_bottom_sheet, this)

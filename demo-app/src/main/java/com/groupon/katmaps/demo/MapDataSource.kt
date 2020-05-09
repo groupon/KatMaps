@@ -27,15 +27,15 @@ import android.graphics.PaintFlagsDrawFilter
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.VectorDrawable
-import com.groupon.katmaps.katmaps_library.model.KatMapsIcon
-import com.groupon.katmaps.katmaps_library.model.KatMapsMarker
+import com.groupon.katmaps.katmaps_library.model.MapIcon
+import com.groupon.katmaps.katmaps_library.model.MapMarker
 import com.groupon.katmaps.katmaps_library.model.GeoCoordinate
 
 object MapDataSource {
     private val context = KatMapsDemoApplication.appContext
     private val resources = context.resources
 
-    val pinIcon = KatMapsIcon.AnimatedImage.create(350) { scaleProgress ->
+    val pinIcon = MapIcon.AnimatedImage.create(350) { scaleProgress ->
         val normalScale = 3f
         val expandedScale = 4.5f
         val scaleDelta = expandedScale - normalScale
@@ -45,56 +45,56 @@ object MapDataSource {
     }
 
     var markers = listOf(
-        KatMapsMarker(
+        MapMarker(
             tag = "Great Wall",
             position = GeoCoordinate(40.440037, 116.568343),
             icon = pinIcon,
             labelTitle = "Great Wall of China",
             labelDescription = "First wonder of the world"
         ),
-        KatMapsMarker(
+        MapMarker(
             tag = "Petra",
             position = GeoCoordinate(30.328547, 35.444433),
             icon = pinIcon,
             labelTitle = "Petra",
             labelDescription = "Second wonder of the world"
         ),
-        KatMapsMarker(
+        MapMarker(
             tag = "Christ",
             position = GeoCoordinate(-22.951807, -43.210584),
             icon = pinIcon,
             labelTitle = "Christ the Redeemer",
             labelDescription = "Third wonder of the  world"
         ),
-        KatMapsMarker(
+        MapMarker(
             tag = "Machu",
             position = GeoCoordinate(-13.158054, -72.546828),
             icon = pinIcon,
             labelTitle = "Machu Picchu",
             labelDescription = "Fourth wonder of the world"
         ),
-        KatMapsMarker(
+        MapMarker(
             tag = "Chichen",
             position = GeoCoordinate(20.684418, -88.567735),
             icon = pinIcon,
             labelTitle = "Chichen Itza",
             labelDescription = "Fifth wonder of the world"
         ),
-        KatMapsMarker(
+        MapMarker(
             tag = "Colosseum",
             position = GeoCoordinate(41.890298, 12.492252),
             icon = pinIcon,
             labelTitle = "Colosseum",
             labelDescription = "Sixth wonder of the world"
         ),
-        KatMapsMarker(
+        MapMarker(
             tag = "Taj",
             position = GeoCoordinate(27.175250, 78.042174),
             icon = pinIcon,
             labelTitle = "Taj Mahal",
             labelDescription = "Seventh wonder of the world"
         ),
-        KatMapsMarker(
+        MapMarker(
             tag = "Giza",
             position = GeoCoordinate(29.979272, 31.134213),
             icon = pinIcon,

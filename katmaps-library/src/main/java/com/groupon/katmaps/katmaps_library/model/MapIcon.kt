@@ -25,12 +25,12 @@ import android.graphics.Rect
 import android.view.animation.AnticipateOvershootInterpolator
 import java.util.concurrent.TimeUnit
 
-sealed class KatMapsIcon {
+sealed class MapIcon {
     /**
      * Define a static icon
      * @param image the icon in Bitmap format
      */
-    data class Image(val image: Bitmap) : KatMapsIcon()
+    data class Image(val image: Bitmap) : MapIcon()
 
     /**
      * Define an animated icon
@@ -38,7 +38,7 @@ sealed class KatMapsIcon {
      * @param duration time in milliseconds to playback the animations
      * @param expanded the state of animation. False = playback in reverse from the end. True = playback forward from the beginning.
      */
-    data class AnimatedImage(val images: List<Bitmap>, val duration: Long, var expanded: Boolean) : KatMapsIcon() {
+    data class AnimatedImage(val images: List<Bitmap>, val duration: Long, var expanded: Boolean) : MapIcon() {
         companion object {
             const val FRAME_RATE = 60L
 
@@ -67,9 +67,9 @@ sealed class KatMapsIcon {
     }
 }
 
-fun KatMapsIcon.getSize(isExpanded: Boolean) = when (this) {
-    is KatMapsIcon.Image -> Rect(0, 0, image.width, image.height)
-    is KatMapsIcon.AnimatedImage -> {
+fun MapIcon.getSize(isExpanded: Boolean) = when (this) {
+    is MapIcon.Image -> Rect(0, 0, image.width, image.height)
+    is MapIcon.AnimatedImage -> {
         // get the largest (last) frame if expanded, otherwise get the smallest (first) frame if default size
         val image = if (isExpanded) images.last() else images.first()
         Rect(0, 0, image.width, image.height)

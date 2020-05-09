@@ -27,13 +27,13 @@ import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.groupon.katmaps.katmaps_library.KatMapsFragment
+import com.groupon.katmaps.katmaps_library.MapFragment
 import com.groupon.katmaps.katmaps_library.model.*
 import com.groupon.katmaps.katmaps_library.model.MapBounds
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
-    private val katmaps = KatMapsFragment()
+    private val map = MapFragment()
     private val poisBottomSheetBehavior: BottomSheetBehavior<PoisBottomSheet> by lazy { BottomSheetBehavior.from(poisBottomSheet) }
     private val poisBottomSheetCollapsedRatio = 0.65f
     private var lastPadding = MapBounds.NO_PADDING
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
 
         mainLayout.addOnLayoutChangeListener(this::onMainLayoutChangeListener)
-        supportFragmentManager.beginTransaction().add(R.id.map, katmaps).commit()
+        supportFragmentManager.beginTransaction().add(R.id.mapPlaceholder, map).commit()
 
         setInitialMapSettings()
         setupBottomSheet()
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         if (left == oldLeft && top == oldTop && right == oldRight && bottom == oldBottom) {
             return
         }
-        poisBottomSheetBehavior.peekHeight = (poisBottomSheetCollapsedRatio * map.height).toInt()
+        poisBottomSheetBehavior.peekHeight = (poisBottomSheetCollapsedRatio * mapPlaceholder.height).toInt()
     }
 
     private fun setupBottomSheet() {
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
         poisBottomSheet.itemClickListener = { poi ->
             poisBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            katmaps.moveCamera(MapBounds.fromCenter(
+            map.moveCamera(MapBounds.fromCenter(
                 center = poi.position,
                 radius = Length.fromMiles(5.0),
                 padding = lastPadding
@@ -80,10 +80,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             private fun animateMap() {
                 val prevBounds = previousBound ?: return
 
-                val bottomSheetCoverProportion = 1f - (poisBottomSheet.top.toFloat() / map.height)
+                val bottomSheetCoverProportion = 1f - (poisBottomSheet.top.toFloat() / mapPlaceholder.height)
                 val newPadding = MapBounds.Padding(0f, bottomSheetCoverProportion, 0f, 0f)
                 val bounds = prevBounds.newPadding(newPadding)
-                katmaps.moveCamera(bounds, false)
+                map.moveCamera(bounds, false)
                 lastPadding = newPadding
             }
 
@@ -102,11 +102,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 }
 
                 if (hasStartedSliding(lastState, newState) && lastState != BottomSheetBehavior.STATE_EXPANDED) {
-                    val bottomSheetCoverProportion = 1f - (poisBottomSheet.top.toFloat() / map.height)
+                    val bottomSheetCoverProportion = 1f - (poisBottomSheet.top.toFloat() / mapPlaceholder.height)
                     val startingBottomPadding = MapBounds.Padding(0f, bottomSheetCoverProportion, 0f, 0f)
-                    previousBound = katmaps.getCameraPositionWithoutPadding(startingBottomPadding, MapBounds.ScaleStrategy.HEIGHT)
+                    previousBound = map.getCameraPositionWithoutPadding(startingBottomPadding, MapBounds.ScaleStrategy.HEIGHT)
                     allowResizeAnimation = true
-                    katmaps.areAllGesturesEnabled = false
+                    map.areAllGesturesEnabled = false
                 }
 
                 // Add in final animation frame
@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 // Unlock map if done animating
                 if (newState != BottomSheetBehavior.STATE_DRAGGING && newState != BottomSheetBehavior.STATE_SETTLING) {
                     allowResizeAnimation = false
-                    katmaps.areAllGesturesEnabled = true
+                    map.areAllGesturesEnabled = true
                 }
 
 
@@ -138,15 +138,15 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     private fun setInitialMapSettings() {
-        katmaps.cameraPosition = MapBounds.fromCenter(
+        map.cameraPosition = MapBounds.fromCenter(
             center = GeoCoordinate(33.0, 24.0),
             radius = 800.miles
         )
-        katmaps.deselectMarkerOnMapClick = true
-        katmaps.markers = MapDataSource.markers
-        katmaps.onMarkerClickListener = { toast("Marker clicked @ ${it.labelTitle}") }
-        katmaps.onMapClickListener = { toast("Map clicked @ $it") }
-        katmaps.onMapCameraMoveListener = ::handleCameraMove
+        map.deselectMarkerOnMapClick = true
+        map.markers = MapDataSource.markers
+        map.onMarkerClickListener = { toast("Marker clicked @ ${it.labelTitle}") }
+        map.onMapClickListener = { toast("Map clicked @ $it") }
+        map.onMapCameraMoveListener = ::handleCameraMove
     }
 
     private fun handleCameraMove(movementState: MovementState, movementReason: MovementReason) {
@@ -156,9 +156,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     private fun showVisibleMarkers() {
-        val visibleMarkers = katmaps.markers.filter {
-            katmaps.screenLocationOf(it.position)?.let { mapPoint ->
-                mapPoint.x > 0 && mapPoint.x < map.width && mapPoint.y > 0 && mapPoint.y < map.height
+        val visibleMarkers = map.markers.filter {
+            map.screenLocationOf(it.position)?.let { mapPoint ->
+                mapPoint.x > 0 && mapPoint.x < mapPlaceholder.width && mapPoint.y > 0 && mapPoint.y < mapPlaceholder.height
             } ?: false
         }
         toast("${visibleMarkers.map { it.labelTitle }}")

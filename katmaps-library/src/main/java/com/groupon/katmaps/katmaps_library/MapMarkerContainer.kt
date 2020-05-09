@@ -30,8 +30,8 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import com.groupon.katmaps.katmaps_library.model.KatMapsIcon
-import com.groupon.katmaps.katmaps_library.model.KatMapsMarker
+import com.groupon.katmaps.katmaps_library.model.MapIcon
+import com.groupon.katmaps.katmaps_library.model.MapMarker
 import com.groupon.katmaps.katmaps_library.model.MarkerViewState
 import com.groupon.katmaps.katmaps_library.model.getSize
 import com.groupon.katmaps.katmaps_library.model.latLng
@@ -45,7 +45,7 @@ import kotlinx.android.synthetic.main.map_marker_label.view.*
 internal class MapMarkerContainer(
     context: Context,
     googleMap: GoogleMap,
-    val katmapsMarker: KatMapsMarker
+    val marker: MapMarker
 ) {
     companion object {
         internal const val MARKER_LABEL_HORIZONTAL_ANCHOR = 0.5f
@@ -72,9 +72,9 @@ internal class MapMarkerContainer(
     private var animationTimer: Timer? = null
 
     init {
-        labelBitmap = generateMapLabelBitmap(context, katmapsMarker)
-        mapPin = createMapMarker(googleMap, katmapsMarker)
-        mapLabel = createMapLabel(googleMap, katmapsMarker, labelBitmap)
+        labelBitmap = generateMapLabelBitmap(context, marker)
+        mapPin = createMapMarker(googleMap, marker)
+        mapLabel = createMapLabel(googleMap, marker, labelBitmap)
     }
 
     fun remove() {
@@ -84,19 +84,19 @@ internal class MapMarkerContainer(
     }
 
     fun getPinBounds(googleMap: GoogleMap, resources: Resources): Rect {
-        val pinSize = katmapsMarker.icon.getSize(viewState == MarkerViewState.EXPANDED_WITH_LABEL)
-
-        val pinAnchorCoordinate = googleMap.projection.toScreenLocation(katmapsMarker.position.latLng)
+        val pinSize = marker.icon.getSize(viewState == MarkerViewState.EXPANDED_WITH_LABEL)
+        val pinAnchorCoordinate = googleMap.projection.toScreenLocation(marker.position.latLng)
 
         val labelLeft = (pinAnchorCoordinate.x - pinSize.width() / 2).pxToDp(resources)
         val labelRight = (pinAnchorCoordinate.x + pinSize.width() / 2).pxToDp(resources)
         val labelTop = (pinAnchorCoordinate.y - pinSize.height()).pxToDp(resources)
         val labelBottom = pinAnchorCoordinate.y.pxToDp(resources)
+
         return Rect(labelLeft, labelTop, labelRight, labelBottom)
     }
 
     fun getLabelBounds(googleMap: GoogleMap, resources: Resources): Rect? {
-        val labelAnchorCoordinate = googleMap.projection.toScreenLocation(katmapsMarker.position.latLng)
+        val labelAnchorCoordinate = googleMap.projection.toScreenLocation(marker.position.latLng)
 
         return labelBitmap?.run {
             val labelLeft = (labelAnchorCoordinate.x - labelBitmap.width / 2).pxToDp(resources)
@@ -108,13 +108,13 @@ internal class MapMarkerContainer(
     }
 
     private fun animateExpansion(viewState: MarkerViewState) {
-        if (katmapsMarker.icon !is KatMapsIcon.AnimatedImage) {
+        if (marker.icon !is MapIcon.AnimatedImage) {
             return
         }
 
-        val interval = TimeUnit.SECONDS.toMillis(1) / KatMapsIcon.AnimatedImage.FRAME_RATE
-        val frames = katmapsMarker.icon.images.map { BitmapDescriptorFactory.fromBitmap(it) }
-        val numFrames = katmapsMarker.icon.images.size
+        val interval = TimeUnit.SECONDS.toMillis(1) / MapIcon.AnimatedImage.FRAME_RATE
+        val frames = marker.icon.images.map { BitmapDescriptorFactory.fromBitmap(it) }
+        val numFrames = marker.icon.images.size
 
         animationTimer?.cancel()
 
@@ -126,35 +126,35 @@ internal class MapMarkerContainer(
         }
     }
 
-    private fun createMapMarker(googleMap: GoogleMap, katmapsMarker: KatMapsMarker): Marker {
-        val iconBitmap = when (val asset = katmapsMarker.icon) {
-            is KatMapsIcon.Image -> BitmapDescriptorFactory.fromBitmap(asset.image)
-            is KatMapsIcon.AnimatedImage -> BitmapDescriptorFactory.fromBitmap(asset.images.first())
+    private fun createMapMarker(googleMap: GoogleMap, marker: MapMarker): Marker {
+        val iconBitmap = when (val asset = marker.icon) {
+            is MapIcon.Image -> BitmapDescriptorFactory.fromBitmap(asset.image)
+            is MapIcon.AnimatedImage -> BitmapDescriptorFactory.fromBitmap(asset.images.first())
         }
 
         val marker = googleMap.addMarker(
             MarkerOptions()
-                .position(katmapsMarker.position.latLng)
+                .position(marker.position.latLng)
                 .icon(iconBitmap)
         )
-        marker.tag = katmapsMarker.tag
+        marker.tag = marker.tag
         return marker
     }
 
-    private fun createMapLabel(googleMap: GoogleMap, katmapsMarker: KatMapsMarker, labelBitmap: Bitmap): Marker? {
-        if (katmapsMarker.labelTitle.isEmpty() && katmapsMarker.labelDescription.isEmpty()) return null
+    private fun createMapLabel(googleMap: GoogleMap, marker: MapMarker, labelBitmap: Bitmap): Marker? {
+        if (marker.labelTitle.isEmpty() && marker.labelDescription.isEmpty()) return null
 
         val label = googleMap.addMarker(
             MarkerOptions()
-                .position(katmapsMarker.position.latLng)
+                .position(marker.position.latLng)
                 .icon(BitmapDescriptorFactory.fromBitmap(labelBitmap))
                 .anchor(MARKER_LABEL_HORIZONTAL_ANCHOR, MARKER_LABEL_VERTICAL_ANCHOR)
         )
-        label.tag = katmapsMarker.tag
+        label.tag = marker.tag
         return label
     }
 
-    private fun generateMapLabelBitmap(context: Context, katmapsMarker: KatMapsMarker): Bitmap {
+    private fun generateMapLabelBitmap(context: Context, katmapsMarker: MapMarker): Bitmap {
         return LayoutInflater.from(context).inflate(R.layout.map_marker_label, null).apply {
             markerLabelTitle.text = katmapsMarker.labelTitle
             markerLabelDescription.text = katmapsMarker.labelDescription

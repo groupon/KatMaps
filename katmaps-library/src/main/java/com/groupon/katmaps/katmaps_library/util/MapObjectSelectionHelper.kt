@@ -25,7 +25,7 @@ import android.graphics.Rect
 import com.google.android.gms.maps.GoogleMap
 import com.groupon.katmaps.katmaps_library.MapMarkerContainer
 import com.groupon.katmaps.katmaps_library.model.GeoCoordinate
-import com.groupon.katmaps.katmaps_library.model.KatMapsMarker
+import com.groupon.katmaps.katmaps_library.model.MapMarker
 import com.groupon.katmaps.katmaps_library.model.latLng
 
 internal class MapObjectSelectionHelper(
@@ -41,10 +41,10 @@ internal class MapObjectSelectionHelper(
 
     private fun GoogleMap.screenLocationOf(coordinate: GeoCoordinate): Point? = this.projection.toScreenLocation(coordinate.latLng)
 
-    private val previousTouchedMarkers: LinkedHashSet<KatMapsMarker> = LinkedHashSet()
-    private val toggledMarkers: HashSet<KatMapsMarker> = HashSet()
+    private val previousTouchedMarkers: LinkedHashSet<MapMarker> = LinkedHashSet()
+    private val toggledMarkers: HashSet<MapMarker> = HashSet()
 
-    fun findMarkerToSelect(mapTouchPosition: Point): KatMapsMarker? {
+    fun findMarkerToSelect(mapTouchPosition: Point): MapMarker? {
         val currentMarkersTouched = findMarkersTouched(mapTouchPosition)
 
         val currentMarkersTouchedCount = currentMarkersTouched.count()
@@ -52,28 +52,28 @@ internal class MapObjectSelectionHelper(
             return null
         }
 
-        val markerToSelect: KatMapsMarker?
+        val markerToSelect: MapMarker?
         val setSimilarity = (currentMarkersTouched - previousTouchedMarkers).count().toFloat() / currentMarkersTouchedCount
         if (setSimilarity > SET_SIMILARITY_THRESHOLD) {
             // Similar set, cycle between markers
-            val nextToSelect = currentMarkersTouched.find { !toggledMarkers.contains(it.katmapsMarker) }
+            val nextToSelect = currentMarkersTouched.find { !toggledMarkers.contains(it.marker) }
             markerToSelect = if (nextToSelect == null) {
                 // Restart cycling
                 toggledMarkers.clear()
-                toggledMarkers.add(currentMarkersTouched.first().katmapsMarker)
-                currentMarkersTouched.first().katmapsMarker
+                toggledMarkers.add(currentMarkersTouched.first().marker)
+                currentMarkersTouched.first().marker
             } else {
                 // move on to next marker
-                toggledMarkers.add(nextToSelect.katmapsMarker)
-                nextToSelect.katmapsMarker
+                toggledMarkers.add(nextToSelect.marker)
+                nextToSelect.marker
             }
         } else {
             // New set, select marker
             toggledMarkers.clear()
-            markerToSelect = currentMarkersTouched.first().katmapsMarker
+            markerToSelect = currentMarkersTouched.first().marker
         }
         previousTouchedMarkers.clear()
-        previousTouchedMarkers.addAll(currentMarkersTouched.map { it.katmapsMarker })
+        previousTouchedMarkers.addAll(currentMarkersTouched.map { it.marker })
         return markerToSelect
     }
 
@@ -87,7 +87,7 @@ internal class MapObjectSelectionHelper(
             .asSequence()
             .filter { Rect.intersects(clickBox, it.getPinBounds(map, resources)) }
             .mapNotNull { markerContainer ->
-                val screenLocation = map.screenLocationOf(markerContainer.katmapsMarker.position)
+                val screenLocation = map.screenLocationOf(markerContainer.marker.position)
                 if (screenLocation != null) Pair(markerContainer, distance(mapTouchPosition, screenLocation)) else null
             }
             .sortedBy { it.second }

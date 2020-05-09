@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.groupon.katmaps.katmaps_library.model.KatMapsMarker
+import com.groupon.katmaps.katmaps_library.model.MapMarker
 import kotlinx.android.synthetic.main.poi_card.view.*
 
-class PoiListAdapter(private val clickListener: ((KatMapsMarker) -> Unit)) : RecyclerView.Adapter<PoiListAdapter.VH>() {
-    var items: List<KatMapsMarker> = emptyList()
+class PoiListAdapter(private val clickListener: ((MapMarker) -> Unit)) : RecyclerView.Adapter<PoiListAdapter.VH>() {
+    var items: List<MapMarker> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -23,11 +23,11 @@ class PoiListAdapter(private val clickListener: ((KatMapsMarker) -> Unit)) : Rec
         holder.bind(items[position])
     }
 
-    class VH(view: View, private val clickListener: ((KatMapsMarker) -> Unit)): RecyclerView.ViewHolder(view) {
-        fun bind(katmapsMarker: KatMapsMarker) {
-            itemView.poiName.text = katmapsMarker.labelTitle
-            itemView.poiDescription.text = katmapsMarker.labelDescription
-            itemView.setOnClickListener { clickListener(katmapsMarker) }
+    class VH(view: View, private val clickListener: ((MapMarker) -> Unit)): RecyclerView.ViewHolder(view) {
+        fun bind(marker: MapMarker) {
+            itemView.poiName.text = marker.labelTitle
+            itemView.poiDescription.text = marker.labelDescription
+            itemView.setOnClickListener { clickListener(marker) }
         }
     }
 }

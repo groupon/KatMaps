@@ -70,13 +70,13 @@ These are features added on top of the Google Maps SDK.
 	    android:value="YOUR_GOOGLE_MAPS_API_KEY_HERE"/>
 	```
 
-4. Create instance of `KatMapsFragment`
+4. Create instance of `MapFragment`
 
 	```kotlin
-	private val katmaps = KatMapsFragment()
+	private val katmaps = MapFragment()
 	```
 
-5. Add fragment to your layout with `KatMapsFragment`
+5. Add fragment to your layout with `MapFragment`
 
 	```kotlin
 	supportFragmentManager.beginTransaction().add(R.id.katmapsMap, katmaps).commit()
@@ -96,9 +96,9 @@ Once you have KatMaps set up, you can begin manipulating the map. Here are some 
 ### Setting markers
 
 ```kotlin
-val pinIcon = KatMapsIcon.Image(someBitmap)
+val pinIcon = MapIcon.Image(someBitmap)
 val sevenWonders = listOf(
-	KatMapsMarker(
+	MapMarker(
 		tag = "Great Wall",
 		position = GeoCoordinate(1.0, 1.0),
 		icon = pinIcon,

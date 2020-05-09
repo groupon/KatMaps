@@ -30,7 +30,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.groupon.katmaps.katmaps_library.model.GeoCoordinate
-import com.groupon.katmaps.katmaps_library.model.KatMapsMarker
+import com.groupon.katmaps.katmaps_library.model.MapMarker
 import com.groupon.katmaps.katmaps_library.model.MapBounds
 import com.groupon.katmaps.katmaps_library.model.MarkerViewState
 import com.groupon.katmaps.katmaps_library.model.MovementReason
@@ -45,7 +45,7 @@ import com.groupon.katmaps.katmaps_library.views.InternalMapView
 /**
  * KatMaps Map Fragment
  */
-class KatMapsFragment : Fragment() {
+class MapFragment : Fragment() {
     companion object {
         private const val LABEL_HIDE_THROTTLING_MS = 100
     }
@@ -53,7 +53,7 @@ class KatMapsFragment : Fragment() {
     private var googleMap: GoogleMap? = null
     private lateinit var googleMapView: MapView
     private var markersMap = HashMap<Any, MapMarkerContainer>()
-    private var deferredMarkers = emptyList<KatMapsMarker>()
+    private var deferredMarkers = emptyList<MapMarker>()
     private var deferredSelectedTag: Any? = null
     private var selectedMarker: MapMarkerContainer? = null
     private var deferredCameraPosition: MapBounds? = null
@@ -75,8 +75,8 @@ class KatMapsFragment : Fragment() {
 
     var onMapClickListener: ((GeoCoordinate) -> Unit)? = null
     var onMapLongClickListener: ((GeoCoordinate) -> Unit)? = null
-    var onMarkerClickListener: ((KatMapsMarker) -> Unit)? = null
-    var onMarkerDeselectedListener: ((KatMapsMarker) -> Unit)? = null
+    var onMarkerClickListener: ((MapMarker) -> Unit)? = null
+    var onMarkerDeselectedListener: ((MapMarker) -> Unit)? = null
     var onMapCameraMoveListener: ((MovementState, MovementReason) -> Unit)? = null
 
     var cameraPosition: MapBounds?
@@ -109,8 +109,8 @@ class KatMapsFragment : Fragment() {
             field = value
         }
 
-    var markers: List<KatMapsMarker>
-        get() = markersMap.values.map { it.katmapsMarker }
+    var markers: List<MapMarker>
+        get() = markersMap.values.map { it.marker }
         set(value) {
             googleMap.run {
                 if (this == null) {
@@ -135,7 +135,7 @@ class KatMapsFragment : Fragment() {
                 selectMapMarker(marker)
             }
         }
-        get() = selectedMarker?.katmapsMarker?.tag
+        get() = selectedMarker?.marker?.tag
 
     var areAllGesturesEnabled: Boolean = true
         set(value) {
@@ -227,7 +227,7 @@ class KatMapsFragment : Fragment() {
         }
     }
 
-    fun getKatMapsMarkerFromTag(tag: Any): KatMapsMarker? = markersMap[tag]?.katmapsMarker
+    fun getMarkerFromTag(tag: Any): MapMarker? = markersMap[tag]?.marker
 
     fun screenLocationOf(coordinate: GeoCoordinate): Point? = googleMap?.projection?.toScreenLocation(coordinate.latLng)
 
@@ -274,10 +274,10 @@ class KatMapsFragment : Fragment() {
         }
     }
 
-    private fun handleGoogleMarkerClick(marker: KatMapsMarker): Boolean {
+    private fun handleGoogleMarkerClick(marker: MapMarker): Boolean {
         val clickedMarker = markersMap[marker.tag] ?: return true
         selectMapMarker(clickedMarker)
-        onMarkerClickListener?.invoke(clickedMarker.katmapsMarker)
+        onMarkerClickListener?.invoke(clickedMarker.marker)
         return true
     }
 
@@ -298,11 +298,11 @@ class KatMapsFragment : Fragment() {
         deselectedMarker.viewState = MarkerViewState.PIN_ONLY // The label will get shown if needed on the next round of hideLabelsWhenOverlap()
 
         selectedMarker = null
-        onMarkerDeselectedListener?.invoke(deselectedMarker.katmapsMarker)
+        onMarkerDeselectedListener?.invoke(deselectedMarker.marker)
     }
 
     private fun removeAllMarkers() {
-        selectedMarker?.let { onMarkerDeselectedListener?.invoke(it.katmapsMarker) }
+        selectedMarker?.let { onMarkerDeselectedListener?.invoke(it.marker) }
         selectedMarker = null
         markersMap.values.forEach { it.remove() }
         markersMap.clear()

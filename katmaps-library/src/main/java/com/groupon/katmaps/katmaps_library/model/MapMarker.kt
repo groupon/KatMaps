@@ -27,10 +27,10 @@ package com.groupon.katmaps.katmaps_library.model
  * @param labelTitle a text label under the marker with a title
  * @param labelDescription a text label under the marker with a description
  */
-data class KatMapsMarker(
+data class MapMarker(
     val tag: Any,
     var position: GeoCoordinate,
-    val icon: KatMapsIcon,
+    val icon: MapIcon,
     var labelTitle: String = "",
     var labelDescription: String = ""
 )

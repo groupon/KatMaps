@@ -69,17 +69,25 @@ These are features added on top of the Google Maps SDK.
 	    android:name="com.google.android.geo.API_KEY"
 	    android:value="YOUR_GOOGLE_MAPS_API_KEY_HERE"/>
 	```
+4. Create a layout with FrameLayout as the placeholder for the `MapFragment` that we'll be adding later
 
-4. Create instance of `KatMapsFragment`
-
-	```kotlin
-	private val katmaps = KatMapsFragment()
+	```xml
+	<FrameLayout
+		android:id="@+id/mapPlaceholder"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent" />
 	```
 
-5. Add fragment to your layout with `KatMapsFragment`
+5. Create instance of `MapFragment` in your activity
 
 	```kotlin
-	supportFragmentManager.beginTransaction().add(R.id.katmapsMap, katmaps).commit()
+	private val map = MapFragment()
+	```
+
+5. Add fragment to `mapPlaceholder` in your layout with the `MapFragment` object we just created
+
+	```kotlin
+	supportFragmentManager.beginTransaction().add(R.id.katmaps, mapPlaceholder).commit()
 	```
 
 6. You are now ready to use KatMaps
@@ -96,9 +104,9 @@ Once you have KatMaps set up, you can begin manipulating the map. Here are some 
 ### Setting markers
 
 ```kotlin
-val pinIcon = KatMapsIcon.Image(someBitmap)
+val pinIcon = MapIcon.Image(someBitmap)
 val sevenWonders = listOf(
-	KatMapsMarker(
+	MapMarker(
 		tag = "Great Wall",
 		position = GeoCoordinate(1.0, 1.0),
 		icon = pinIcon,
@@ -106,19 +114,19 @@ val sevenWonders = listOf(
 	)
 )
 
-katmaps.markers = sevenWonders
+map.markers = sevenWonders
 ```
 
 ### Removing all markers
 
 ```kotlin
-katmaps.markers = emptyList()
+map.markers = emptyList()
 ```
 
 ### Setting the marker click listener
 
 ```kotlin
-katmaps.onMarkerClickListener = { marker ->
+map.onMarkerClickListener = { marker ->
     Log.i("Demo", "Clicked: ${marker.labelTitle} - ${marker.labelDescription}")
 }
 ```
@@ -126,8 +134,7 @@ katmaps.onMarkerClickListener = { marker ->
 ### Setting the marker deselected listener
 
 ```kotlin
-
-katmaps.onMarkerDeselectedListener = { marker ->
+map.onMarkerDeselectedListener = { marker ->
     Log.i("Demo", "Deselected: ${marker.labelTitle} - ${marker.labelDescription}")
 }
 ```
@@ -135,7 +142,7 @@ katmaps.onMarkerDeselectedListener = { marker ->
 ### Setting the map's position (simple)
 
 ```kotlin
-katmaps.cameraPosition = MapBounds.fromCenter(
+map.cameraPosition = MapBounds.fromCenter(
     center = GeoCoordinate(41.9019876, -87.6561932),
     radius = 2.miles
 )
@@ -146,15 +153,15 @@ katmaps.cameraPosition = MapBounds.fromCenter(
 Note: You must check for permissions or this won't work
 
 ```kotlin
-katmaps.showCurrentLocation = true
+map.showCurrentLocation = true
 ```
 
 ### Get/Set camera position via property
 
 ```kotlin
-val previousCameraPosition: MapBound = katmaps.cameraPosition
+val previousCameraPosition: MapBound = map.cameraPosition
 
-katmaps.cameraPosition = MapBounds.fromCenter(
+map.cameraPosition = MapBounds.fromCenter(
     center = previousCameraPosition.center,
     radius = 2.miles,
     tilt = 30f
@@ -164,7 +171,7 @@ katmaps.cameraPosition = MapBounds.fromCenter(
 ### Setting the map's position with/without animation via function
 
 ```kotlin
-katmaps.moveCamera(
+map.moveCamera(
     mapBounds = MapBounds.fromCenter(
         center = GeoCoordinate(41.9019876, -87.6561932),
         radius = 2.miles
@@ -176,7 +183,7 @@ katmaps.moveCamera(
 ### Show a 2 mile radius with 10% padding from all edges
 
 ```kotlin
-katmaps.cameraPosition = MapBounds.fromCenter(
+map.cameraPosition = MapBounds.fromCenter(
     center = GeoCoordinate(41.9019876, -87.6561932),
     radius = 2.miles,
     padding = MapBounds.Padding(0.1f, 0.1f, 0.1f, 0.1f)
@@ -186,7 +193,7 @@ katmaps.cameraPosition = MapBounds.fromCenter(
 ### Show exactly 2 miles accounting for 20% of the map's bottom covered
 
 ```kotlin
-katmaps.cameraPosition = MapBounds.fromCenter(
+map.cameraPosition = MapBounds.fromCenter(
     center = GeoCoordinate(41.9019876, -87.6561932),
     radius = 2.miles,
     padding = MapBounds.Padding(0f, 0.2f, 0f, 0f)
@@ -200,8 +207,8 @@ katmaps.cameraPosition = MapBounds.fromCenter(
 	
 		```xml
 		<meta-data
-		android:name="com.google.android.geo.API_KEY"
-		android:value="PUT_YOUR_KEY_HERE"/>
+			android:name="com.google.android.geo.API_KEY"
+			android:value="PUT_YOUR_KEY_HERE"/>
 		```
 	
 	- Add to your environment variable: 

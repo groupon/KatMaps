@@ -2,8 +2,9 @@ name: Run Unit Tests
 
 on:
   pull_request:
-    branches:
-      - '!master'
+    paths:
+      - "**/*.kt"
+      - ".github/workflows/unit_tests.yml"
 
 jobs:
   test:

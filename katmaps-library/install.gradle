@@ -1,17 +1,17 @@
 apply plugin: 'com.github.dcendents.android-maven'
 
-group = 'com.example.androidlibrary'
+group = 'com.groupon.katmaps'
 
 install {
     repositories.mavenInstaller {
         pom {
             project {
                 packaging 'aar'
-                groupId 'com.example.androidlibrary'
-                artifactId 'androidlibrary'
-                name 'androidlibrary'
-                description 'An android library.'
-                url 'https://github.com/cuttlesoft/android-library-example'
+                groupId 'com.groupon'
+                artifactId 'katmaps'
+                name 'KatMaps'
+                description 'KatMaps is a declarative API wrapper that simplifies the usage of the Android Google Maps SDK. It is written in Kotlin and provides a Kotlin first API.'
+                url 'https://github.com/groupon/KatMaps'
 
                 licenses {
                     license {

@@ -19,6 +19,7 @@ under the License.
 
 package com.groupon.katmaps.katmaps_library
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -154,6 +155,7 @@ internal class MapMarkerContainer(
         return label
     }
 
+    @SuppressLint("InflateParams")
     private fun generateMapLabelBitmap(context: Context, katmapsMarker: MapMarker): Bitmap {
         return LayoutInflater.from(context).inflate(R.layout.map_marker_label, null).apply {
             markerLabelTitle.text = katmapsMarker.labelTitle

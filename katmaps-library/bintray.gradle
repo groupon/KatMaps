@@ -24,8 +24,8 @@ bintray {
         name = 'com.groupon.katmaps'
         configurations = ['archives']
         desc = 'An android library.'
-        websiteUrl = 'https://github.com/cuttlesoft/android-library-example'
-        vcsUrl = 'https://github.com/cuttlesoft/anroid-library-example.git'
+        websiteUrl = 'https://github.com/groupon/KatMaps'
+        vcsUrl = 'https://github.com/groupon/KatMaps.git'
         licenses = ["Apache-2.0"]
         publish = true
         publicDownloadNumbers = true

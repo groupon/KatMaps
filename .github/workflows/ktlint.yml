@@ -6,8 +6,9 @@ on:
       - "**/*.kt"
       - ".github/workflows/ktlint.yml"
   push:
-    branches:
-      - !master
+    paths:
+      - "**/*.kt"
+      - ".github/workflows/ktlint.yml"
 
 jobs:
   ktlint:

@@ -20,7 +20,7 @@ bintray {
     key = properties.getProperty("bintray.apikey")
 
     pkg {
-        repo = 'maven'
+        repo = 'jcenter' // TODO
         name = 'com.groupon.katmaps'
         configurations = ['archives']
         desc = 'An android library.'

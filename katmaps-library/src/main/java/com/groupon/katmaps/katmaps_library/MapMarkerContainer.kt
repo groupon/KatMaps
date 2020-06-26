@@ -136,6 +136,7 @@ internal class MapMarkerContainer(
             MarkerOptions()
                 .position(marker.position.latLng)
                 .icon(iconBitmap)
+                .title(marker.labelTitle + " " + marker.labelDescription)
         )
         marker.tag = marker.tag
         return marker

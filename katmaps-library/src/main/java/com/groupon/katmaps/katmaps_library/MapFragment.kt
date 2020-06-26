@@ -19,25 +19,19 @@ under the License.
 
 package com.groupon.katmaps.katmaps_library
 
-import android.accessibilityservice.AccessibilityServiceInfo
-import android.content.Context
 import android.graphics.Point
 import android.os.Bundle
-import android.speech.tts.TextToSpeech
-import android.speech.tts.TextToSpeech.OnInitListener
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.accessibility.AccessibilityManager
 import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.groupon.katmaps.katmaps_library.model.GeoCoordinate
-import com.groupon.katmaps.katmaps_library.model.MapBounds
 import com.groupon.katmaps.katmaps_library.model.MapMarker
+import com.groupon.katmaps.katmaps_library.model.MapBounds
 import com.groupon.katmaps.katmaps_library.model.MarkerViewState
 import com.groupon.katmaps.katmaps_library.model.MovementReason
 import com.groupon.katmaps.katmaps_library.model.MovementState
@@ -47,8 +41,6 @@ import com.groupon.katmaps.katmaps_library.util.MapLabelOverlapHider
 import com.groupon.katmaps.katmaps_library.util.MapObjectSelectionHelper
 import com.groupon.katmaps.katmaps_library.util.pxToDp
 import com.groupon.katmaps.katmaps_library.views.InternalMapView
-import java.util.Locale
-
 
 /**
  * KatMaps Map Fragment
@@ -59,7 +51,6 @@ class MapFragment : Fragment() {
     }
 
     private var googleMap: GoogleMap? = null
-    private var textToSpeech: TextToSpeech? = null
     private lateinit var googleMapView: MapView
     private var markersMap = HashMap<Any, MapMarkerContainer>()
     private var deferredMarkers = emptyList<MapMarker>()
@@ -171,9 +162,7 @@ class MapFragment : Fragment() {
             }
             onCreate(savedInstanceState)
         }
-
     }
-
 
     override fun onStart() {
         super.onStart()

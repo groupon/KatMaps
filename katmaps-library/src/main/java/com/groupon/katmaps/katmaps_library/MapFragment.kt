@@ -171,23 +171,9 @@ class MapFragment : Fragment() {
             }
             onCreate(savedInstanceState)
         }
-        initTextToSpeech()
+
     }
 
-    private fun initTextToSpeech()
-    {
-        textToSpeech = TextToSpeech(activity, OnInitListener { status ->
-            if (status == TextToSpeech.SUCCESS) {
-                val ttsLang: Int? = textToSpeech?.setLanguage(Locale.US)
-                if (ttsLang == TextToSpeech.LANG_MISSING_DATA
-                    || ttsLang == TextToSpeech.LANG_NOT_SUPPORTED) {
-                    Log.e("KatMaps TTS", "Language Not Supported")
-                }
-            } else {
-                Log.e("KatMaps TTS", "TTS Initialization failed!")
-            }
-        })
-    }
 
     override fun onStart() {
         super.onStart()
@@ -303,30 +289,7 @@ class MapFragment : Fragment() {
         val clickedMarker = markersMap[marker.tag] ?: return true
         selectMapMarker(clickedMarker)
         onMarkerClickListener?.invoke(clickedMarker.marker)
-        if(isTalkBackEnabled())
-        {
-            enableMarkerTextToSpeech(clickedMarker)
-        }
         return true
-    }
-
-    private fun isTalkBackEnabled():Boolean
-    {
-        val accessibilityManager = context?.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
-        if (accessibilityManager.isEnabled) {
-            val serviceInfoList = accessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_SPOKEN)
-            if (serviceInfoList.isNotEmpty()) return true
-        }
-        return false
-    }
-
-    private fun enableMarkerTextToSpeech(clickedMarker: MapMarkerContainer)
-    {
-        val data: String = clickedMarker.marker.labelTitle+ " " + clickedMarker.marker.labelDescription
-        val speechStatus = textToSpeech?.speak(data, TextToSpeech.QUEUE_FLUSH, null,null)
-        if (speechStatus == TextToSpeech.ERROR) {
-            Log.e("KatMaps TTS", "Error in converting Text to Speech!");
-        }
     }
 
     private fun selectMapMarker(mapMarker: MapMarkerContainer) {

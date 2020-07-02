@@ -16,8 +16,8 @@ properties.load( new FileInputStream("local.properties"))
 
 // Bintray
 bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
+    user = properties.getProperty("bintray.user") ?: "FAKE_USER"
+    key = properties.getProperty("bintray.apikey") ?: "FAKE_APIKEY"
 
     pkg {
         repo = 'jcenter' // TODO

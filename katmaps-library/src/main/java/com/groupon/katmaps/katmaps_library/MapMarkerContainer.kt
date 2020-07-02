@@ -38,10 +38,10 @@ import com.groupon.katmaps.katmaps_library.model.getSize
 import com.groupon.katmaps.katmaps_library.model.latLng
 import com.groupon.katmaps.katmaps_library.util.pxToDp
 import com.groupon.katmaps.katmaps_library.util.toBitmap
+import kotlinx.android.synthetic.main.map_marker_label.view.*
 import java.util.Timer
 import java.util.concurrent.TimeUnit
 import kotlin.concurrent.timer
-import kotlinx.android.synthetic.main.map_marker_label.view.*
 
 internal class MapMarkerContainer(
     context: Context,

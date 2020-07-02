@@ -32,12 +32,15 @@ import com.google.android.gms.maps.MapView
 internal class InternalMapView(context: Context?) : MapView(context) {
     var onClickListener: ((Point) -> Unit)? = null
 
-    private val gestureDetector = GestureDetector(this.context, object : GestureDetector.SimpleOnGestureListener() {
-        override fun onSingleTapUp(e: MotionEvent): Boolean {
-            onClickListener?.invoke(Point(e.x.toInt(), e.y.toInt()))
-            return super.onSingleTapUp(e)
+    private val gestureDetector = GestureDetector(
+        this.context,
+        object : GestureDetector.SimpleOnGestureListener() {
+            override fun onSingleTapUp(e: MotionEvent): Boolean {
+                onClickListener?.invoke(Point(e.x.toInt(), e.y.toInt()))
+                return super.onSingleTapUp(e)
+            }
         }
-    })
+    )
 
     override fun dispatchTouchEvent(e: MotionEvent): Boolean {
         gestureDetector.onTouchEvent(e)

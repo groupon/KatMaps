@@ -27,9 +27,9 @@ import android.graphics.PaintFlagsDrawFilter
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.VectorDrawable
+import com.groupon.katmaps.katmaps_library.model.GeoCoordinate
 import com.groupon.katmaps.katmaps_library.model.MapIcon
 import com.groupon.katmaps.katmaps_library.model.MapMarker
-import com.groupon.katmaps.katmaps_library.model.GeoCoordinate
 
 object MapDataSource {
     private val context = KatMapsDemoApplication.appContext
@@ -110,7 +110,7 @@ object MapDataSource {
                 val bitmap = Bitmap.createBitmap((intrinsicWidth * scale).toInt(), (intrinsicHeight * scale).toInt(), Bitmap.Config.ARGB_8888)
                 val canvas = Canvas(bitmap)
                 canvas.drawFilter = PaintFlagsDrawFilter(0, Paint.FILTER_BITMAP_FLAG)
-                setBounds(0 ,0, (intrinsicWidth * scale).toInt(), (intrinsicHeight * scale).toInt())
+                setBounds(0, 0, (intrinsicWidth * scale).toInt(), (intrinsicHeight * scale).toInt())
                 draw(canvas)
                 bitmap
             }

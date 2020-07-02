@@ -10,6 +10,9 @@ jobs:
     name: Verify ktlint
     runs-on: ubuntu-latest
 
+    before_script:
+      - touch local.properties
+
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -20,6 +23,9 @@ jobs:
   build_artifacts:
     name: Verify build
     runs-on: ubuntu-latest
+
+    before_script:
+      - touch local.properties
 
     steps:
       - uses: actions/checkout@v1
@@ -34,6 +40,9 @@ jobs:
   test:
     name: Verify unit tests
     runs-on: ubuntu-latest
+
+    before_script:
+      - touch local.properties
 
     steps:
       - uses: actions/checkout@v1

@@ -12,7 +12,7 @@ artifacts {
 }
 
 Properties properties = new Properties()
-properties.load( new FileInputStream("local.properties"))
+properties.load(new FileInputStream("bintray.properties"))
 
 // Bintray
 bintray {
@@ -20,7 +20,7 @@ bintray {
     key = properties.getProperty("bintray.apikey") ?: "FAKE_APIKEY"
 
     pkg {
-        repo = 'jcenter' // TODO
+        repo = 'jcenter'
         name = 'com.groupon.katmaps'
         configurations = ['archives']
         desc = 'An android library.'

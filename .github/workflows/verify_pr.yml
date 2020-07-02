@@ -13,11 +13,10 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
-
+      - name: Create fake local.properties
+        run: touch local.properties
       - name: Run lintKotlin
-        run: |
-        touch local.properties
-        ./gradlew clean lintKotlin
+        run: ./gradlew clean lintKotlin
 
   build_artifacts:
     name: Verify build
@@ -30,10 +29,10 @@ jobs:
         with:
           java-version: 1.8
           architecture: x64
+      - name: Create fake local.properties
+        run: touch local.properties
       - name: Build with Gradle
-        run: |
-          touch local.properties
-          ./gradlew clean :katmaps-library:build
+        run: ./gradlew clean :katmaps-library:build
 
   test:
     name: Verify unit tests
@@ -45,6 +44,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      - name: Create fake local.properties
+        run: touch local.properties
       - name: Unit tests
         run: |
           touch local.properties

@@ -22,7 +22,7 @@ package com.groupon.katmaps.demo
 import android.app.Application
 import android.content.Context
 
-class KatMapsDemoApplication: Application() {
+class KatMapsDemoApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()

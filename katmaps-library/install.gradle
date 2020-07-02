@@ -1,0 +1,39 @@
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = 'com.groupon.katmaps'
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                groupId 'com.groupon'
+                artifactId 'katmaps'
+                name 'KatMaps'
+                description 'KatMaps is a declarative API wrapper that simplifies the usage of the Android Google Maps SDK. It is written in Kotlin and provides a Kotlin first API.'
+                url 'https://github.com/groupon/KatMaps'
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'androidengineering'
+                        name 'Groupon Android'
+                        email 'androidengineering@groupon.com'
+                    }
+                }
+
+                scm {
+                    connection 'https://github.com/groupon/KatMaps.git'
+                    developerConnection 'https://github.com/groupon/KatMaps.git'
+                    url 'https://github.com/groupon/KatMaps'
+                }
+            }
+        }
+    }
+}

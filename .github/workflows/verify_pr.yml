@@ -26,8 +26,6 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Unit tests
-        run: bash ./gradlew test --stacktrace
           architecture: x64
       - name: Build with Gradle
         run: ./gradlew clean :katmaps-library:build

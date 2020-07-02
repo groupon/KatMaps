@@ -9,7 +9,6 @@ jobs:
   ktlint:
     name: Verify ktlint
     runs-on: ubuntu-latest
-
     before_script:
       - touch local.properties
 
@@ -23,7 +22,6 @@ jobs:
   build_artifacts:
     name: Verify build
     runs-on: ubuntu-latest
-
     before_script:
       - touch local.properties
 
@@ -40,7 +38,6 @@ jobs:
   test:
     name: Verify unit tests
     runs-on: ubuntu-latest
-
     before_script:
       - touch local.properties
 

@@ -11,11 +11,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: "checkout"
+      - name: checkout
         uses: actions/checkout@v2
 
-      - name: "ktlint"
-        uses: "vroy/gha-kotlin-linter@v1"
+      - name: Run lintKotlin
+        run: ./gradlew clean lintKotlin
+
   build_artifacts:
     name: Verify build
     runs-on: ubuntu-latest

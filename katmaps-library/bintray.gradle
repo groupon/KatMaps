@@ -1,0 +1,33 @@
+apply plugin: 'com.jfrog.bintray'
+
+version = '1.0.0'
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+Properties properties = new Properties()
+properties.load(new FileInputStream("local.properties"))
+
+// Bintray
+bintray {
+    user = properties.getProperty("bintray.user") ?: "FAKE_USER"
+    key = properties.getProperty("bintray.apikey") ?: "FAKE_APIKEY"
+
+    pkg {
+        repo = 'jcenter'
+        name = 'com.groupon.katmaps'
+        configurations = ['archives']
+        desc = 'An android library.'
+        websiteUrl = 'https://github.com/groupon/KatMaps'
+        vcsUrl = 'https://github.com/groupon/KatMaps.git'
+        licenses = ["Apache-2.0"]
+        publish = true
+        publicDownloadNumbers = true
+    }
+}

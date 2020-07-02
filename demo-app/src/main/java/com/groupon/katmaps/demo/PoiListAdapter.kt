@@ -23,7 +23,7 @@ class PoiListAdapter(private val clickListener: ((MapMarker) -> Unit)) : Recycle
         holder.bind(items[position])
     }
 
-    class VH(view: View, private val clickListener: ((MapMarker) -> Unit)): RecyclerView.ViewHolder(view) {
+    class VH(view: View, private val clickListener: ((MapMarker) -> Unit)) : RecyclerView.ViewHolder(view) {
         fun bind(marker: MapMarker) {
             itemView.poiName.text = marker.labelTitle
             itemView.poiDescription.text = marker.labelDescription

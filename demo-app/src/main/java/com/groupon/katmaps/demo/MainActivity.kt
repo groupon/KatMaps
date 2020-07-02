@@ -48,8 +48,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         setupBottomSheet()
     }
 
-    private fun onMainLayoutChangeListener(v: View, left: Int, top: Int, right: Int, bottom: Int,
-                                           oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
+    private fun onMainLayoutChangeListener(v: View, left: Int, top: Int,
+        right: Int,
+        bottom: Int,
+        oldLeft: Int,
+        oldTop: Int,
+        oldRight: Int,
+        oldBottom: Int
+    ) {
         if (left == oldLeft && top == oldTop && right == oldRight && bottom == oldBottom) {
             return
         }
@@ -63,11 +69,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
         poisBottomSheet.itemClickListener = { poi ->
             poisBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            map.moveCamera(MapBounds.fromCenter(
-                center = poi.position,
-                radius = Length.fromMiles(5.0),
-                padding = lastPadding
-            ), true)
+            map.moveCamera(
+                MapBounds.fromCenter(
+                    center = poi.position,
+                    radius = Length.fromMiles(5.0),
+                    padding = lastPadding
+                ),
+                true
+            )
         }
         poisBottomSheetBehavior.isHideable = true
         poisBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
@@ -120,7 +129,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                     map.areAllGesturesEnabled = true
                 }
 
-
                 lastState = newState
                 if (newState != BottomSheetBehavior.STATE_DRAGGING && newState != BottomSheetBehavior.STATE_SETTLING) {
                     lastStationaryState = newState
@@ -129,11 +137,13 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
             private fun isFinishingSliding(lastStationaryState: Int, lastState: Int, newState: Int) =
                 (lastState == BottomSheetBehavior.STATE_DRAGGING || lastState == BottomSheetBehavior.STATE_SETTLING) &&
-                        (newState == BottomSheetBehavior.STATE_COLLAPSED || newState == BottomSheetBehavior.STATE_HIDDEN) && lastStationaryState != BottomSheetBehavior.STATE_EXPANDED
+                    (newState == BottomSheetBehavior.STATE_COLLAPSED || newState == BottomSheetBehavior.STATE_HIDDEN) && lastStationaryState != BottomSheetBehavior.STATE_EXPANDED
 
             private fun hasStartedSliding(lastState: Int, newState: Int) =
-                (newState == BottomSheetBehavior.STATE_DRAGGING ||
-                        newState == BottomSheetBehavior.STATE_SETTLING && lastState != BottomSheetBehavior.STATE_DRAGGING)
+                (
+                    newState == BottomSheetBehavior.STATE_DRAGGING ||
+                        newState == BottomSheetBehavior.STATE_SETTLING && lastState != BottomSheetBehavior.STATE_DRAGGING
+                    )
         })
     }
 

@@ -30,8 +30,8 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.groupon.katmaps.katmaps_library.model.GeoCoordinate
-import com.groupon.katmaps.katmaps_library.model.MapMarker
 import com.groupon.katmaps.katmaps_library.model.MapBounds
+import com.groupon.katmaps.katmaps_library.model.MapMarker
 import com.groupon.katmaps.katmaps_library.model.MarkerViewState
 import com.groupon.katmaps.katmaps_library.model.MovementReason
 import com.groupon.katmaps.katmaps_library.model.MovementState
@@ -118,9 +118,11 @@ class MapFragment : Fragment() {
                 } else {
                     removeAllMarkers()
                     val context = context ?: return
-                    markersMap.putAll(value.map { markerModel ->
-                        markerModel.tag to MapMarkerContainer(context, this, markerModel)
-                    }.toMap())
+                    markersMap.putAll(
+                        value.map { markerModel ->
+                            markerModel.tag to MapMarkerContainer(context, this, markerModel)
+                        }.toMap()
+                    )
                     hideLabelsWhenOverlap()
                 }
             }

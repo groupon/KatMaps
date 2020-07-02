@@ -30,7 +30,6 @@ jobs:
           command: ./gradlew testDebug
           when: always
 
-
   build_artifacts:
     name: Verify build
     runs-on: ubuntu-latest

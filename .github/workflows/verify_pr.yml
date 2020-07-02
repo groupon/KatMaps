@@ -1,5 +1,4 @@
 name: Verify PR
-
 on:
   pull_request:
     paths:
@@ -8,28 +7,15 @@ on:
 
 jobs:
   ktlint:
-    name: Verify lint
+    name: Verify ktlint
     runs-on: ubuntu-latest
 
     steps:
-      - name: checkout
+      - name: "checkout"
         uses: actions/checkout@v2
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
-      - save_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
-          paths:
-            - ~/.gradle
-      - run:
-          name: Run Lint on app module
-          command: ./gradlew :app:lintDebug
-          when: always
-      - run:
-          name: Run Unit Tests
-          command: ./gradlew testDebug
-          when: always
 
+      - name: "ktlint"
+        uses: "vroy/gha-kotlin-linter@v1"
   build_artifacts:
     name: Verify build
     runs-on: ubuntu-latest
@@ -40,6 +26,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      - name: Unit tests
+        run: bash ./gradlew test --stacktrace
           architecture: x64
       - name: Build with Gradle
         run: ./gradlew clean :katmaps-library:build
@@ -56,8 +44,3 @@ jobs:
           java-version: 1.8
       - name: Unit tests
         run: bash ./gradlew test --stacktrace
-      - store_artifacts:
-          path: app/build/reports
-          destination: reports
-      - store_test_results:
-          path: app/build/test-results

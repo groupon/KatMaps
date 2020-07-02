@@ -48,10 +48,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         setupBottomSheet()
     }
 
-    private fun onMainLayoutChangeListener(
-        v: View,
-        left: Int,
-        top: Int,
+    private fun onMainLayoutChangeListener(v: View, left: Int, top: Int,
         right: Int,
         bottom: Int,
         oldLeft: Int,

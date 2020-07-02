@@ -9,21 +9,19 @@ jobs:
   ktlint:
     name: Verify ktlint
     runs-on: ubuntu-latest
-    before_script:
-      - touch local.properties
 
     steps:
       - name: checkout
         uses: actions/checkout@v2
 
       - name: Run lintKotlin
-        run: ./gradlew clean lintKotlin
+        run: |
+        touch local.properties
+        ./gradlew clean lintKotlin
 
   build_artifacts:
     name: Verify build
     runs-on: ubuntu-latest
-    before_script:
-      - touch local.properties
 
     steps:
       - uses: actions/checkout@v1
@@ -33,13 +31,13 @@ jobs:
           java-version: 1.8
           architecture: x64
       - name: Build with Gradle
-        run: ./gradlew clean :katmaps-library:build
+        run: |
+          touch local.properties
+          ./gradlew clean :katmaps-library:build
 
   test:
     name: Verify unit tests
     runs-on: ubuntu-latest
-    before_script:
-      - touch local.properties
 
     steps:
       - uses: actions/checkout@v1
@@ -48,4 +46,6 @@ jobs:
         with:
           java-version: 1.8
       - name: Unit tests
-        run: bash ./gradlew test --stacktrace
+        run: |
+          touch local.properties
+          bash ./gradlew test --stacktrace

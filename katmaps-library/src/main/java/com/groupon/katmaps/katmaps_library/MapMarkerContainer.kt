@@ -132,14 +132,14 @@ internal class MapMarkerContainer(
             is MapIcon.AnimatedImage -> BitmapDescriptorFactory.fromBitmap(asset.images.first())
         }
 
-        val marker = googleMap.addMarker(
+        val googleMarker = googleMap.addMarker(
             MarkerOptions()
                 .position(marker.position.latLng)
                 .icon(iconBitmap)
                 .title(marker.labelTitle + " " + marker.labelDescription)
         )
-        marker.tag = marker.tag
-        return marker
+        googleMarker.tag = marker.tag
+        return googleMarker
     }
 
     private fun createMapLabel(googleMap: GoogleMap, marker: MapMarker, labelBitmap: Bitmap): Marker? {
